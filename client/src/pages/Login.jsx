@@ -1,11 +1,15 @@
-import { useState,useContext } from "react";
+import { useState,useContext,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
-import googleLogo from "../assets/google-logo.svg";
+import { toast } from "react-hot-toast";
 import UserContext from "../context/UserContext";
 
 const Login = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "" 

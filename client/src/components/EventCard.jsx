@@ -59,8 +59,8 @@ const EventCard = () => {
         />
       </div>
     
-      <div className="lg:w-2/3 bg-black bg-opacity-60 mb-10 lg:px-5 py-5 rounded-lg lg:mt-40 lg:mb-40  w-full text-center lg:text-left lg:ml-8">
-        <h2 className="text-4xl text-yellow-500 font-bold mb-2">{event.title}</h2>
+      <div className="w-full lg:w-2/3 bg-black bg-opacity-60 mb-10 lg:px-5 py-5 rounded-lg lg:mt-40 lg:mb-40 text-center lg:text-left lg:ml-8">
+        <h2 className="text-3xl lg:text-4xl text-yellow-500 font-bold mb-3">{event.title}</h2>
 
         <div className="lg:hidden">
           <button

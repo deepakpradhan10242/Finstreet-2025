@@ -6,6 +6,11 @@ import UserContext from "../context/UserContext";
 
 
 const EmailVerify=()=>{
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     axios.defaults.withCredentials = true;
     const {backendUrl , isLoggedIn,userData,getUserData} = useContext(UserContext);
 

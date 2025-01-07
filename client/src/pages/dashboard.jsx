@@ -4,6 +4,11 @@ import toast from 'react-hot-toast';
 import UserContext from '../context/UserContext';
 
 const Dashboard = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const { backendUrl, userData } = useContext(UserContext);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +72,7 @@ const Dashboard = () => {
         </header>
 
         <main className="w-full max-w-4xl bg-slate-900 p-6 rounded-lg shadow-lg mb-20">
-          <h2 className="text-2xl font-semibold text-white mb-4">Events You Participated In</h2>
+          <h2 className="text-xl lg:text-2xl font-semibold text-white mb-4">Events You Participated In</h2>
 
           {/* Conditional Rendering */}
           {loading ? (
@@ -84,7 +89,8 @@ const Dashboard = () => {
 
                   <button
                     onClick={() => handleRemoveFromEvent(event._id)}
-                    className="text-red-500 text-xl font-bold hover:text-red-700"
+                    onTouchEnd={() => handleRemoveFromEvent(event._id)}
+                    className="text-red-500 text-3xl font-bold hover:text-red-700"
                     aria-label="Remove Event"
                   >
                     &times;

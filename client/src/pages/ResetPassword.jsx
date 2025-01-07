@@ -1,11 +1,15 @@
 import React, { useContext } from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const ResetPassword = ()=>{
+
+    useEffect(() => {
+            window.scrollTo(0, 0);
+    }, []);
 
     const {backendUrl} = useContext(UserContext);
     axios.defaults.withCredentials = true;
