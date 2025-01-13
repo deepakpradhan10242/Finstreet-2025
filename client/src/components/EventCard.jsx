@@ -55,7 +55,7 @@ const EventCard = () => {
         <img
           src={event.image}
           alt={event.title}
-          className="h-80 lg:h-96 w-auto lg:mb-0  border-yellow-500 transition-transform transform hover:scale-105"
+          className="h-72 lg:h-80 w-auto lg:mb-0  border-yellow-500 transition-transform transform hover:scale-105"
         />
       </div>
     
@@ -71,14 +71,14 @@ const EventCard = () => {
           >
             {isOpen ? "Hide Description" : "Show Description"}
           </button>
-          {isOpen && <p id="description" className="text-base text-white mb-4">{event.description}</p>}
+          {isOpen && <p id="description" className="text-base text-white mb-4 text-left px-5">{event.description}</p>}
         </div>
 
         <div className="hidden lg:block">
           <p className="text-base text-white mb-4">{event.description}</p>
         </div>
 
-        <p className="text-xl font-semibold mt-4 mb-20 lg:mt-0">
+        <p className="text-xl font-semibold mt-4 mb-10 lg:mt-0 text-left px-5 lg:px-0">
           [ Date: {event.date || "TBA"} ] [ Time: {event.time || "TBA"} ]
         </p>
 

@@ -19,7 +19,7 @@ const EventAlbum = () => {
 
   const EventCard = ({ image, title, description }) => {
     return (
-      <div className="max-w-xs bg-black bg-opacity-60 border-2 border-yellow-500  rounded-lg text-center shadow-lg hover:shadow-2xl m-5 hover:scale-105 transition-all duration-300 p-4">
+      <div className="max-w-96 bg-black bg-opacity-60 border-2 border-yellow-500  rounded-lg text-center shadow-lg hover:shadow-2xl m-5 hover:scale-105 transition-all duration-300 p-4">
         <img
           src={image}
           alt={title}

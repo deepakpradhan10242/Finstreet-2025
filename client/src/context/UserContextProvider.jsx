@@ -20,7 +20,7 @@ const UserContextProvider = (props) => {
         getUserData();
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Please Login to fetch your data");
       
     }
   };
