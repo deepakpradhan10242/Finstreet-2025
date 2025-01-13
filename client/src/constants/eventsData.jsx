@@ -13,7 +13,7 @@ export const events = [
     id: "45556-65454",
     day: 2,
     image: estimania,
-    title: "Enigma",
+    title: "Estimania",
     date: "18 Jan 2025",
     time: "9:00 AM",
     description: "tep into the financial matrix, where chaos meets clarity, and freedom awaits the bold. This isn’t just about numbers—it’s a battle of insight, strategy, and skill to decode the system.In this arena, data is your weapon, and foresight is your guide. Can you master valuation, assessment, and trends, or will the matrix tighten its grip?",
