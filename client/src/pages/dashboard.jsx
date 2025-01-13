@@ -3,7 +3,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import UserContext from "../context/UserContext";
 
-
 const Dashboard = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -70,8 +69,6 @@ const Dashboard = () => {
     }
   };
 
-
-
   return (
     <div className="flex flex-col items-center justify-start bg-gradient-to-br from-blue-300 to-blue-900 min-h-screen p-6">
       <header className="flex flex-col items-center my-6 mb-20 mt-24">
@@ -107,8 +104,11 @@ const Dashboard = () => {
                 </span>
                 <button
                   type="button"
-                  onClick={() => handleRemoveFromEvent(event._id)}
-                  className="text-red-500 text-3xl font-bold hover:text-red-700"
+                  onClick={(e) => {
+                    e.stopPropagation(); // Ensure no parent click handlers interfere
+                    handleRemoveFromEvent(event._id);
+                  }}
+                  className="text-red-500 text-3xl font-bold hover:text-red-700 focus:outline-none active:scale-90"
                   aria-label="Remove Event"
                 >
                   &times;
