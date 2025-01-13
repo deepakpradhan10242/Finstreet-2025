@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import UserContext from "../context/UserContext";
-import { debounce } from "lodash";
+
 
 const Dashboard = () => {
   useEffect(() => {
@@ -70,9 +70,7 @@ const Dashboard = () => {
     }
   };
 
-  const debouncedRemove = debounce((eventId) => {
-    handleRemoveFromEvent(eventId);
-  }, 300);
+
 
   return (
     <div className="flex flex-col items-center justify-start bg-gradient-to-br from-blue-300 to-blue-900 min-h-screen p-6">
@@ -108,7 +106,8 @@ const Dashboard = () => {
                   })}
                 </span>
                 <button
-                  onClick={() => debouncedRemove(event._id)}
+                  type="button"
+                  onClick={() => handleRemoveFromEvent(event._id)}
                   className="text-red-500 text-3xl font-bold hover:text-red-700"
                   aria-label="Remove Event"
                 >
