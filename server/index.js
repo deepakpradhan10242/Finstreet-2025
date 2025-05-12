@@ -10,10 +10,11 @@ import cookieParser from 'cookie-parser';
 const app = express();
 
 app.use(cors({
-    origin: ["http://localhost:5173", "https://finstreet-2025.vercel.app"],
-    methods: ["GET", "POST"],
-    credentials: true, 
-  }));  
+  origin: "*",
+  methods: ["GET", "POST"],
+  credentials: false, 
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
