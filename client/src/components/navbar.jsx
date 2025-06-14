@@ -34,6 +34,7 @@ const Navbar = () => {
     try {
       axios.defaults.withCredentials = true;
       const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`);
+      console.log(data);
       if (data.success) {
         toast.success(data.message);
         navigate("/user/email-verify");
@@ -148,7 +149,7 @@ const Navbar = () => {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden text-white text-3xl"
+            className="lg:hidden bg-yellow-100 text-black rounded-full p-2 transition-all duration-300 shadow-lg text-3xl"
             aria-label="Toggle Menu"
           >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -162,8 +163,8 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden px-6 py-6 bg-black/90 backdrop-blur-md animate-fade-in">
-            <ul className="flex flex-col gap-4 items-start text-left text-lg font-medium">
+          <div className="lg:hidden px-10 py-10">
+            <ul className="flex flex-col gap-7 items-start text-left text-lg font-medium">
               {renderMenuItems()}
             </ul>
           </div>

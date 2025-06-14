@@ -50,6 +50,7 @@ export const loginUser=async(req, res)=>{
   }
 }
 
+
 export const sendVerifyOtp = async(req,res)=>{
   try{
     const {userId} =req.body;

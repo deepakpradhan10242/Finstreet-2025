@@ -13,14 +13,6 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    branch:{
-        type:String,
-        required:true
-    },
-    rollNo:{
-        type:String,
-        required:true
-    },
     verifyOtp:{
         type:String,
         default:''
