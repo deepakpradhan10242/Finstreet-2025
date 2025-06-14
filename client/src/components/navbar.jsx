@@ -1,141 +1,112 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import UserContext from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Menu, X, Home, CalendarClock, Landmark, Users,
+  GaugeCircle, Trophy, LogIn, LogOut, UserCircle, AlertTriangle
+} from "lucide-react";
 import axios from "axios";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
+import UserContext from "../context/UserContext";
 import FinStreet_logo from "../assets/Finstreet-logo.png";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
   const navigate = useNavigate();
 
-  const { userData,backendUrl,setUserData,isLoggedIn,setIsLoggedIn } = useContext(UserContext);
+  const { userData, backendUrl, setUserData, isLoggedIn, setIsLoggedIn } = useContext(UserContext);
 
-  const handleLogout = async() => {
-    try{
+  const handleLogout = async () => {
+    try {
       axios.defaults.withCredentials = true;
-      const {data} = await axios.post(`${backendUrl}/api/auth/logout`);
-      data.success && setIsLoggedIn(false);
-      data.success && setUserData(null);
-      toast.success(data.message);
-      navigate('/');
-    }catch(error){
-      toast.error(error.message);
-    }
-  };
-
-  const sendVerificationotp=async() => {
-    try{
-      axios.defaults.withCredentials = true;
-
-      const {data} = await axios.post(`${backendUrl}/api/auth/send-verify-otp`);
-
-      if(data.success){
-        navigate('/user/email-verify');
+      const { data } = await axios.post(`${backendUrl}/api/auth/logout`);
+      if (data.success) {
+        setIsLoggedIn(false);
+        setUserData(null);
         toast.success(data.message);
+        navigate("/");
       }
-    }catch(error){
+    } catch (error) {
       toast.error(error.message);
-    }
-  }
-
-  const handleToggleDropdown = () => setIsDropdownOpen((prev) => !prev);
-
-  const handleOutsideClick = (e) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-      setIsDropdownOpen(false);
     }
   };
 
-  useEffect(() => {
-    if (isDropdownOpen) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
+  const sendVerificationOtp = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`);
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/user/email-verify");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
     }
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [isDropdownOpen]);
+  };
 
   const renderMenuItems = () => (
     <>
       <li>
-        <Link to="/" className="hover:text-cyan-400" onClick={() => setIsMenuOpen(false)}>
-          Home
+        <Link to="/" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
+          <Home size={18} /> Home
         </Link>
       </li>
       <li>
-        <Link to="/calendar" className="hover:text-cyan-400" onClick={() => setIsMenuOpen(false)}>
-          Calendar
+        <Link to="/calendar" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
+          <CalendarClock size={18} /> Calendar
         </Link>
       </li>
       <li>
-        <Link to="/events" className="hover:text-cyan-400" onClick={() => setIsMenuOpen(false)}>
-          Events
+        <Link to="/events" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
+          <Landmark size={18} /> Events
         </Link>
       </li>
+      <li>
+        <Link to="/admin" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
+          <UserCircle size={18} /> Admin
+        </Link>
+      </li>
+      <li>
+        <Link to="/team" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
+          <Users size={18} /> Team
+        </Link>
+      </li>
+      <li>
+        <Link to="/leaderboard" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
+          <Trophy size={18} /> Leaderboard
+        </Link>
+      </li>
+
       {userData ? (
         <>
-          {/* For Large Devices: User Icon with Dropdown */}
-          <li className="hidden lg:block relative" ref={dropdownRef}>
-            <button onClick={handleToggleDropdown} className="w-8 h-8 flex justify-center items-center rounded-full
-            bg-white text-black relative group hover:bg-cyan-400">
-               {userData.name[0].toUpperCase()}
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg">
-                <ul className="flex flex-col">
-                  {!userData.isAccountVerified && <li onClick={sendVerificationotp}
-                      className="block px-4 py-2 cursor-pointer text-red-600 hover:bg-gray-300">  
-                      Verify Account                 
-                  </li> }
-                  { userData.isAccountVerified && <li>
-                    <Link
-                      to="/user/dashboard"
-                      className="block px-4 py-2 hover:bg-gray-300"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      Dashboard
-                    </Link>
-                  </li>}
-                  <li>
-                    <button
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-left w-full hover:bg-gray-300"
-                    >
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </li>
-          {/* For Small Devices: Show Dashboard and Logout in Menu */}
-          {!userData.isAccountVerified && <li onClick={sendVerificationotp}
-            className="lg:hidden cursor-pointer text-red-600">  
-            Verify Account                 
-          </li> }
-          {userData.isAccountVerified && <li className="lg:hidden">
-            <Link to="/user/dashboard" className="hover:text-cyan-400" onClick={() => setIsMenuOpen(false)}>
-              Dashboard
-            </Link>
-          </li>}
-          <li className="lg:hidden">
-            <button onClick={handleLogout} className="hover:text-cyan-400">
-              Logout
+          {userData.isAccountVerified && (
+            <li>
+              <Link
+                to="/user/dashboard"
+                className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <GaugeCircle size={18} /> Dashboard
+              </Link>
+            </li>
+          )}
+
+          <li>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400"
+            >
+              <LogOut size={18} /> Logout
             </button>
           </li>
         </>
       ) : (
         <li>
-          <Link to={"/user/login"} className="hover:text-cyan-400" onClick={() => setIsMenuOpen(false)}>
-            Login
+          <Link
+            to="/user/login"
+            className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <LogIn size={18} /> Login
           </Link>
         </li>
       )}
@@ -143,41 +114,62 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-black text-white bg-opacity-75 py-3 z-50">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        {/* Logo Section */}
-        <div className="flex items-center gap-4">
-          <Link to="/" rel="noopener noreferrer">
-            <img src={FinStreet_logo} alt="Finstreet Logo" className="w-12" />
-          </Link>
-          <h1 className="text-4xl">
-            <span className="text-yellow-400">Fin</span>
-            <span className="street-font">Street</span>
-          </h1>
-        </div>
-
-        {/* Hamburger Icon for Mobile */}
-        <button
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="lg:hidden text-white text-3xl focus:outline-none"
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? "×" : "☰"}
-        </button>
-
-        {/* Navigation Links for Large Screens */}
-        <ul className="hidden lg:flex lg:gap-8 lg:items-center text-lg font-medium">
-          {renderMenuItems()}
-        </ul>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden flex flex-col items-center gap-6 text-lg font-medium bg-opacity-75 py-6 px-4">
-          <ul className="flex flex-col items-center gap-6 w-full">{renderMenuItems()}</ul>
+    <>
+      {/* 🔔 Top verification bar */}
+      {userData && !userData.isAccountVerified && (
+        <div className="w-full bg-yellow-100 text-black text-sm px-4 py-2 flex items-center justify-center gap-4 font-medium z-[60] fixed top-0 left-0 shadow-md">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 " />
+            <span>Your account is not verified.</span>
+          </div>
+          <button
+            onClick={sendVerificationOtp}
+            className="bg-black text-yellow-100 px-3 py-1 rounded hover:bg-gray-800 transition-all text-sm flex items-center gap-2"
+          >
+            Verify Now
+          </button>
         </div>
       )}
-    </nav>
+
+      {/* Adjust navbar position */}
+      <nav className={`fixed ${userData && !userData.isAccountVerified ? "top-10" : "top-0"} left-0 w-full z-50 bg-black/70 backdrop-blur-md shadow-md text-white py-3 transition-all`}>
+        <div className="container mx-auto flex justify-between items-center px-4">
+          {/* Logo & Title */}
+          <div className="flex items-center gap-3">
+            <Link to="/">
+              <img src={FinStreet_logo} alt="Finstreet Logo" className="w-12" />
+            </Link>
+            <h1 className="text-3xl font-bold flex items-center gap-1">
+              <span className="text-yellow-400">Fin</span>
+              <span className="font-street">Street</span>
+            </h1>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden text-white text-3xl"
+            aria-label="Toggle Menu"
+          >
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+
+          {/* Desktop Nav */}
+          <ul className="hidden lg:flex items-center gap-8 text-lg font-medium">
+            {renderMenuItems()}
+          </ul>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden px-6 py-6 bg-black/90 backdrop-blur-md animate-fade-in">
+            <ul className="flex flex-col gap-4 items-start text-left text-lg font-medium">
+              {renderMenuItems()}
+            </ul>
+          </div>
+        )}
+      </nav>
+    </>
   );
 };
 
