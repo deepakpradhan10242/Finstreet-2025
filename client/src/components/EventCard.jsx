@@ -1,15 +1,14 @@
 import { events } from "../constants/eventsData";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { CalendarDays, Clock3, Landmark, MapPin, X } from "lucide-react";
 
 const EventCard = () => {
   const navigate = useNavigate();
-  const { backendUrl, userData,} = useContext(UserContext);
-
-  const [isOpen, setIsOpen] = useState(false);
+  const { backendUrl, userData } = useContext(UserContext);
   const { id } = useParams();
   const event = events.find((event) => event.id === id);
 
@@ -17,79 +16,105 @@ const EventCard = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const toggleAccordion = () => setIsOpen(!isOpen);
-
   const handleParticipate = async () => {
-    if (!userData || !userData.id) {
+    if (!userData?.id) {
       navigate("/user/login");
       return;
     }
 
     try {
-      const { data } = await axios.post(`${backendUrl}/api/user/events/${event?.id}/participate`, {
-        userId: userData.id,
-        title: event.title,
-        time: event.time,
-        date: event.date,
-      });
-      
-      if (data.success) {
-        toast.success(data.message || "Successfully participated!");
-      } else {
-        toast.error(data.message || "Failed to participate.");
-      }
+      const { data } = await axios.post(
+        `${backendUrl}/api/user/events/${event?.id}/participate`,
+        {
+          userId: userData.id,
+          title: event.title,
+          time: event.time,
+          date: event.date,
+        }
+      );
+
+      data.success
+        ? toast.success(data.message || "Successfully participated!")
+        : toast.error(data.message || "Failed to participate.");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Something went wrong. Please try again.";
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong. Please try again.";
       toast.error(errorMessage);
-      console.error("Participation error:", error);
     }
   };
 
+  const handleClose = () => {
+    window.scrollTo(0, 0);
+    navigate("/events");
+  };
+
   if (!event) {
-    return <p className="text-center text-red-500">Event not found!</p>;
+    return <p className="text-center text-red-500 mt-20">Event not found!</p>;
   }
 
   return (
-    <div className="px-4 bg-opacity-60 lg:px-24 flex flex-col lg:flex-row lg:items-start items-center justify-between">
-      <div className="max-w-xs mt-40 lg:mb-40 bg-black bg-opacity-60 border-2 border-yellow-500 rounded-lg text-center shadow-lg hover:shadow-2xl m-5 hover:scale-105 transition-all duration-300 p-4">
-        <img
-          src={event.image}
-          alt={event.title}
-          className="h-72 lg:h-80 w-auto lg:mb-0  border-yellow-500 transition-transform transform hover:scale-105"
-        />
+    <div className="relative px-4 py-20 lg:px-24 bg-black bg-opacity-60 mt-24 rounded-xl mb-10 text-white min-h-screen flex flex-col items-center">
+      {/* Close Icon */}
+      <button
+        onClick={handleClose}
+        className="absolute top-6 right-6 bg-yellow-500 hover:bg-yellow-400 text-black rounded-full p-2 transition-all duration-300 shadow-lg"
+        aria-label="Close"
+      >
+        <X size={20} />
+      </button>
+
+      {/* Event Image and Info */}
+      <div className="w-full max-w-5xl flex flex-col lg:flex-row items-center lg:items-start gap-10">
+        <div className="relative flex-shrink-0">
+          <img
+            src={event.image}
+            alt={event.title}
+            className="rounded-lg border-2 border-yellow-500 shadow-lg w-72 h-72 object-cover"
+          />
+          {event.day && (
+            <span className="absolute top-2 left-2 bg-yellow-400 text-black text-xs px-3 py-1 rounded-full font-semibold shadow-md">
+              Day {event.day}
+            </span>
+          )}
+        </div>
+
+        {/* Info Card */}
+        <div className="flex-1 bg-white/5 backdrop-blur-md border border-yellow-500 rounded-xl p-6 shadow-lg">
+          <h2 className="text-3xl lg:text-4xl text-yellow-400 font-bold mb-6 flex items-center gap-3">
+            <Landmark size={28} />
+            {event.title}
+          </h2>
+
+          <div className="space-y-4 text-lg">
+            <p className="flex items-center gap-2">
+              <CalendarDays size={20} className="text-yellow-300" />
+              <span>Date:</span> {event.date || "TBA"}
+            </p>
+            <p className="flex items-center gap-2">
+              <Clock3 size={20} className="text-yellow-300" />
+              <span>Time:</span> {event.time || "TBA"}
+            </p>
+            <p className="flex items-center gap-2">
+              <MapPin size={20} className="text-yellow-300" />
+              <span>Venue:</span> {event.venue || "To be announced"}
+            </p>
+          </div>
+
+          <div className="mt-8">
+            <button
+              onClick={handleParticipate}
+              className="bg-yellow-100 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 shadow-lg transform transition-transform duration-300 hover:scale-105"
+            >
+              Register Now
+            </button>
+          </div>
+        </div>
       </div>
-    
-      <div className="w-full lg:w-2/3 bg-black bg-opacity-60 mb-10 lg:px-5 py-5 rounded-lg lg:mt-40 lg:mb-40 text-center lg:text-left lg:ml-8">
-        <h2 className="text-3xl lg:text-4xl text-yellow-500 font-bold mb-3">{event.title}</h2>
 
-        <div className="lg:hidden">
-          <button
-            className="border-2 border-yellow-400 text-white font-semibold px-5 py-2 rounded w-56 mb-4"
-            onClick={toggleAccordion}
-            aria-expanded={isOpen}
-            aria-controls="description"
-          >
-            {isOpen ? "Hide Description" : "Show Description"}
-          </button>
-          {isOpen && <p id="description" className="text-base text-white mb-4 text-left px-5">{event.description}</p>}
-        </div>
-
-        <div className="hidden lg:block">
-          <p className="text-base text-white mb-4">{event.description}</p>
-        </div>
-
-        <p className="text-xl font-semibold mt-4 mb-10 lg:mt-0 text-left px-5 lg:px-0">
-          [ Date: {event.date || "TBA"} ] [ Time: {event.time || "TBA"} ]
-        </p>
-
-        <div className="flex justify-center lg:justify-center gap-4 mb-10 mt-8">
-          <button
-            onClick={handleParticipate}
-            className="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg w-56 lg:w-56 hover:bg-yellow-400 shadow-lg transform transition-transform duration-300 hover:scale-105"
-          >
-            Participate
-          </button>
-        </div>
+      {/* Description */}
+      <div className="mt-16 w-full max-w-4xl bg-white/5 backdrop-blur-md border border-yellow-500 p-6 rounded-xl shadow-xl">
+        <h3 className="text-2xl font-semibold text-yellow-400 mb-4">About the Event</h3>
+        <p className="text-white text-base leading-relaxed">{event.description}</p>
       </div>
     </div>
   );

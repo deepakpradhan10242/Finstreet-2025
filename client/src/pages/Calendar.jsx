@@ -1,53 +1,89 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { calendar } from "../constants/eventsData";
+import {
+  CalendarDays,
+  ListTodo,
+  ChevronDown,
+  CalendarSearch,
+  ArrowRight,
+} from "lucide-react";
 
 const Calendar = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  });
+  }, []);
+
+  const toggleAccordion = (index) => {
+    setOpenIndex((prev) => (prev === index ? null : index));
+  };
 
   return (
-    
-    <div className="flex min-h-screen py-12 px-4">
-      <section id="calendar" className="w-full max-w-7xl mx-auto mt-20">
+    <div className="min-h-screen w-full md:w-10/12 lg:w-8/12 mx-auto bg-black bg-opacity-60 rounded-xl text-white py-12 px-4 mt-24 mb-10">
+      <section id="calendar" className="w-full max-w-3xl mx-auto">
         {/* Header */}
-        <div className="flex justify-center">
-            <h2 className="text-3xl bg-black bg-opacity-60 rounded-lg font-bold text-center mb-10 uppercase text-yellow-400 px-6 py-2 max-w-fit">
-                Event Calendar
-            </h2>
-        </div>
-        {/* Calendar Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
-          {calendar.map((event, index) => (
-            <div
-              key={index}
-              className="bg-black bg-opacity-60 border-yellow-500 border-2 rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 p-6"
-            >
-              <h3 className="text-xl text-yellow-400 font-bold text-center">
-                {event.day}
-              </h3>
-              <p className="mt-2 text-yellow-300 text-center">{event.date}</p>
-              <ul className="mt-4 text-gray-200 space-y-2">
-                {event.activities.map((activity, activityIndex) => (
-                  <li
-                    key={activityIndex}
-                    className="flex items-center space-x-2"
-                  >
-                    <span className="inline-block w-2 h-2 bg-yellow-400 rounded-full"></span>
-                    <span>{activity}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold uppercase bg-white/5 backdrop-blur-md border border-yellow-400 text-yellow-400 inline-flex items-center gap-3 px-6 py-3 rounded-md shadow">
+            <CalendarSearch size={24} /> Event Calendar
+          </h2>
         </div>
 
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
+        {/* Accordion List */}
+        <div className="w-full space-y-5">
+          {calendar.map((event, index) => {
+            const isOpen = openIndex === index;
+
+            return (
+              <div
+                key={index}
+                className="border border-yellow-500 bg-white/5 backdrop-blur-md rounded-xl p-4 shadow hover:shadow-yellow-500/20 transition"
+              >
+                {/* Accordion Header */}
+                <button
+                  onClick={() => toggleAccordion(index)}
+                  className="flex justify-between items-center w-full text-left text-yellow-300"
+                >
+                  <div>
+                    <p className="text-sm font-semibold flex items-center gap-2">
+                      <CalendarDays size={16} />
+                      {event.date}
+                    </p>
+                    <p className="text-xs text-yellow-400 mt-1">{event.day}</p>
+                  </div>
+                  <ChevronDown
+                    size={18}
+                    className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+
+                {/* Accordion Content */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 mt-2 ${
+                    isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <ul className="mt-3 space-y-2 text-sm text-gray-200">
+                    {event.activities.map((activity, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <ListTodo size={14} className="text-yellow-300 mt-0.5" />
+                        <span>{activity}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Register Button */}
+        <div className="mt-12 text-center">
           <Link to="/events">
-            <button className="font-semibold border-2 border-yellow-500 text-white py-2 px-4 lg:py-3 lg:px-6 rounded-lg hover:bg-yellow-500 hover:text-black transition">
-              Register for Events
+            <button className="w-full max-w-3xl mx-auto group font-semibold border-2 bg-white/5 backdrop-blur-md border-yellow-400 text-white py-2 px-6 rounded-lg hover:bg-yellow-400 hover:text-black transition-all duration-300 shadow-md hover:shadow-yellow-400/30 flex justify-center items-center gap-2 text-center">
+              <span>Register for Events</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </Link>
         </div>
