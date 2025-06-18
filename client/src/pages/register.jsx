@@ -89,12 +89,12 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen">
       <form
         onSubmit={handleSubmit}
-        className="bg-black bg-opacity-60  p-8 rounded-lg shadow-lg lg:w-96 w-80 mt-16 text-sm"
+        className="bg-white/5 backdrop-blur-md  p-8 rounded-lg shadow-lg lg:w-96 w-80 mt-16 text-sm"
       >
-        <h1 className="text-white text-2xl font-semibold text-center mb-14">
+        <h1 className="text-yellow-100 text-2xl font-semibold text-center mb-14">
           Sign Up
         </h1>
-        <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
+        <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md">
           <input
             id="name"
             name="name"
@@ -110,7 +110,7 @@ const Register = () => {
           )}
         </div>
 
-        <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
+        <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md">
           <input
             id="email"
             name="email"
@@ -126,7 +126,7 @@ const Register = () => {
           )}
         </div>
 
-        <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
+        <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md">
           <input
             id="password"
             name="password"
@@ -142,7 +142,7 @@ const Register = () => {
           )}
         </div>
 
-        <div className=" w-full mb-4 flex items-center gap-3  px-5 py-2.5 rounded-full bg-[#333A5C]">
+        <div className=" w-full mb-4 flex items-center gap-3  px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md">
           <input
             id="branch"
             name="branch"
@@ -158,7 +158,7 @@ const Register = () => {
           )}
         </div>
 
-        <div className=" w-full mb-4 flex items-center gap-3  px-5 py-2.5 rounded-full bg-[#333A5C]">
+        <div className=" w-full mb-4 flex items-center gap-3  px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md">
           <input
             id="rollNo"
             name="rollNo"
@@ -176,12 +176,12 @@ const Register = () => {
 
         <p className="text-sm px-5 py-2.5 text-gray-400">
           Have an account? Click{" "}
-          <Link to="/user/login" className="text-blue-600 underline">
+          <Link to="/user/login" className="text-yellow-100 underline">
             Login
           </Link>
         </p>
 
-        <button className="w-full py-2.5 bg-blue-500 hover:bg-blue-800 text-white rounded-full mt-5 mb-5">
+        <button className="w-full py-2.5 bg-yellow-100 hover:bg-yellow-500 text-black rounded-full mt-5 mb-5">
           Submit
         </button>
       </form>

@@ -79,7 +79,7 @@ const EventCard = () => {
         </div>
 
         {/* Info Card */}
-        <div className="flex-1 bg-white/5 backdrop-blur-md border border-yellow-500 rounded-xl p-6 shadow-lg">
+        <div className="w-full max-w-4xl flex-1 bg-white/5 backdrop-blur-md border border-yellow-500 rounded-xl p-6 shadow-lg">
           <h2 className="text-3xl lg:text-4xl text-yellow-400 font-bold mb-6 flex items-center gap-3">
             <Landmark size={28} />
             {event.title}

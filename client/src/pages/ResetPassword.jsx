@@ -74,42 +74,42 @@ const ResetPassword = ()=>{
             {/* enter email address */}
     
         {!isEmailSent &&
-            <form onSubmit={onSubmitEmail}  className="bg-black bg-opacity-60  p-8 rounded-lg shadow-lg lg:w-96 w-80 text-sm">
-                <h1 className="text-white text-2xl font-semibold text-center mb-4">Reset password</h1>
-                <p className="text-center mb-6 text-indigo-300" >Enter your registered email address</p>
-                <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
+            <form onSubmit={onSubmitEmail}  className="bg-white/5 backdrop-blur-md  p-8 rounded-lg shadow-lg lg:w-96 w-80 text-sm">
+                <h1 className="text-yellow-100 text-2xl font-semibold text-center mb-4">Reset password</h1>
+                <p className="text-center mb-6 text-yellow-300" >Enter your registered email address</p>
+                <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md">
                     <input type="email" placeholder='Email Address' className='bg-transparent outline-none text-white'
                     value={email} onChange={e=>setEmail(e.target.value)} required />
                 </div>
 
-                <button className="w-full py-2.5  bg-blue-500 hover:bg-blue-800 text-white rounded-full mt-3">Submit</button>
+                <button className="w-full py-2.5  bg-yellow-100 hover:bg-yellow-500 text-black rounded-full mt-3">Submit</button>
             </form>
         }
             {/* otp input form */}
         {!isOtpSubmitted && isEmailSent &&
-            <form onSubmit={onSubmitOtp}  className="bg-black bg-opacity-60 p-8 rounded-lg shadow-lg lg:w-96 w-80 text-sm" >
+            <form onSubmit={onSubmitOtp}  className="bg-white/5 backdrop-blur-md p-8 rounded-lg shadow-lg lg:w-96 w-80 text-sm" >
                 <h1 className="text-white text-2xl font-semibold text-center mb-4">Password reset OTP</h1>
                 <p className="text-center mb-6 text-indigo-300" >Enter the 6-digit code sent to your email Address</p>
                 <div className="flex justify-between mb-8">
                     {Array(6).fill(0).map((_,index)=>(
-                        <input type='text' maxLength='1' key={index} required className=" lg:w-12 lg:h-12 w-10 h-10 bg-[#333A5C] text-white text-center text-xl rounded-md" 
+                        <input type='text' maxLength='1' key={index} required className=" lg:w-12 lg:h-12 w-10 h-10 bg-white/5 backdrop-blur-md text-white text-center text-xl rounded-md" 
                         ref={e=> inputRefs.current[index]=e} onInput={(e)=>handleInput(e,index)} onKeyDown={(e)=>handleKeyDown(e,index)} />
                     ))}
                 </div>
-                <button className="w-full py-2.5  bg-blue-500 hover:bg-blue-800 text-white rounded-full ">Submit</button>
+                <button className="w-full py-2.5  bg-yellow-100 hover:bg-yellow-500 text-white rounded-full ">Submit</button>
             </form>
         }
             {/* new pass form */}
         {isOtpSubmitted && isEmailSent &&
-            <form onSubmit={onSubmitNewPassword} className="bg-black bg-opacity-60 p-8 rounded-lg shadow-lg lg:w-96 w-80 text-sm">
+            <form onSubmit={onSubmitNewPassword} className="bg-white/5 backdrop-blur-md p-8 rounded-lg shadow-lg lg:w-96 w-80 text-sm">
                 <h1 className="text-white text-2xl font-semibold text-center mb-4">New password</h1>
                 <p className="text-center mb-6 text-indigo-300" >Enter the new password below</p>
-                <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-[#333A5C]">
+                <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-white/5 backdrop-blur-md">
                     <input type="password" placeholder='Password' className='bg-transparent outline-none text-white'
                     value={newPassword} onChange={e=>setNewPassword(e.target.value)} required />
                 </div>
 
-                <button className="w-full py-2.5  bg-blue-500 hover:bg-blue-800 text-white rounded-full mt-3">Submit</button>
+                <button className="w-full py-2.5  bg-yellow-100 hover:bg-yellow-500 text-white rounded-full mt-3">Submit</button>
             </form>
         }
         </div>
