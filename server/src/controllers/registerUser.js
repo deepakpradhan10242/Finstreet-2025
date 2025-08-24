@@ -25,7 +25,7 @@ async function registerUser(req, res) {
     const user = new userModel(payload);
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY,  {expiresIn: "1d"});
 
   
     res.cookie("token", token, {

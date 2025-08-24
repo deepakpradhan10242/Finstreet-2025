@@ -34,7 +34,7 @@ const Navbar = () => {
     try {
       axios.defaults.withCredentials = true;
       const { data } = await axios.post(`${backendUrl}/api/auth/send-verify-otp`);
-      console.log(data);
+      //console.log(data);
       if (data.success) {
         toast.success(data.message);
         navigate("/user/email-verify");
@@ -61,11 +61,11 @@ const Navbar = () => {
           <Landmark size={18} /> Events
         </Link>
       </li>
-      <li>
+      {/* <li>
         <Link to="/admin" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
           <UserCircle size={18} /> Admin
         </Link>
-      </li>
+      </li> */}
       <li>
         <Link to="/team" className="flex items-center gap-2 text-yellow-100 hover:text-yellow-400" onClick={() => setIsMenuOpen(false)}>
           <Users size={18} /> Team

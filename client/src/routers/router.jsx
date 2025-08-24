@@ -11,6 +11,9 @@ import Layout from "../layout/layout";
 import ResetPassword from "../pages/ResetPassword";
 import EmailVerify from "../pages/EmailVerify";
 import Developer from "../developer/Developer";
+import Leaderboard from "../pages/Leaderboard";
+import Team from "../pages/team";
+import TeamDashboard from "../pages/teamDashboard";
 
 const router = createBrowserRouter([
     {
@@ -57,6 +60,18 @@ const router = createBrowserRouter([
                 path:"/developer",
                 element:<Layout> <Developer/> </Layout> 
             },
+            {
+                path:"/leaderboard",
+                element:<Layout> <Leaderboard/> </Layout>
+            },
+            {
+                path:"/team",
+                element:<Layout> <Team/> </Layout>
+            },
+            {
+                path:"/team/teamdashboard",
+                element:<Layout> <TeamDashboard/> </Layout>
+            }
             
         ]
     },

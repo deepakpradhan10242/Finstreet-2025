@@ -20,7 +20,7 @@ const UserContextProvider = (props) => {
         getUserData();
       }
     } catch (error) {
-      toast.error("Please Login to fetch your data");
+      toast?.error("Hang on we are loading");
       
     }
   };
